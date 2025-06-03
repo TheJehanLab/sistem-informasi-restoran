@@ -1,0 +1,51 @@
+{% extends 'admin/layout.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Daftar Pesanan Masuk</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Pelanggan</th>
+        <th>Menu</th>
+        <th>Jumlah</th>
+        <th>Status</th>
+        <th>Bukti</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in pesanan %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ p[1] }}</td>
+        <td>{{ p[2] }}</td>
+        <td>{{ p[3] }}</td>
+        <td>{{ p[4] }}</td>
+        <td>
+          {% if p[5] %}
+            {% if p[5].endswith('.pdf') %}
+              <a href="{{ url_for('static', filename='uploads/' ~ p[5]) }}" target="_blank">Lihat</a>
+            {% else %}
+              <img src="{{ url_for('static', filename='uploads/' ~ p[5]) }}" alt="Bukti" width="80">
+            {% endif %}
+          {% else %}
+            <span class="text-muted">Belum upload</span>
+          {% endif %}
+        </td>
+        <td>
+          <form method="POST" action="{{ url_for('update_status_pesanan', id=p[0]) }}">
+            <select name="status" class="form-select form-select-sm">
+              <option value="menunggu" {% if p[4] == 'menunggu' %}selected{% endif %}>Menunggu</option>
+              <option value="diproses" {% if p[4] == 'diproses' %}selected{% endif %}>Diproses</option>
+              <option value="selesai" {% if p[4] == 'selesai' %}selected{% endif %}>Selesai</option>
+            </select>
+            <button class="btn btn-sm btn-primary mt-1" type="submit">Update</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

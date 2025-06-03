@@ -1,35 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pelanggan Dashboard - Restoran</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>Pelanggan - Restoran</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand text-white" href="{{ url_for('pelanggan_dashboard') }}">Pelanggan Dashboard</a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{{ url_for('logout') }}">Logout</a>
-          </li>
-        </ul>
+      <a class="navbar-brand" href="#">Restoran</a>
+      <div class="d-flex">
+        <span class="navbar-text text-white me-3">{{ session.username }}</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-light">Logout</a>
       </div>
     </div>
   </nav>
 
-  <div class="d-flex">
-    <div class="bg-light p-3" style="width: 250px; min-height: 100vh;">
-      <ul class="nav flex-column">
-        <li class="nav-item"><a href="{{ url_for('pelanggan_dashboard') }}" class="nav-link">Dashboard</a></li>
-        <!-- Tambah menu lain di sini -->
-      </ul>
-    </div>
-
-    <div class="p-4 flex-grow-1">
-      {% block content %}{% endblock %}
+  <!-- Sidebar + Content -->
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 bg-light sidebar py-4">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('pelanggan_dashboard') }}">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('pelanggan_menu') }}">Lihat Menu</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('pelanggan_riwayat') }}">Riwayat</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('pelanggan_rating') }}">Rating & Saran</a></li>
+        </ul>
+      </nav>
+      <main class="col-md-10 py-4">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-info">{{ messages[0] }}</div>
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </main>
     </div>
   </div>
 </body>

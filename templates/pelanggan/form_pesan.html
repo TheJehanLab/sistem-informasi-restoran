@@ -1,0 +1,13 @@
+{% extends 'pelanggan/layout.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Form Pemesanan</h3>
+  <form method="POST">
+    <div class="mb-3">
+      <label for="jumlah" class="form-label">Jumlah</label>
+      <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Pesan Sekarang</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'admin/layout.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Laporan Penjualan</h3>
+
+  <form method="POST" class="row g-3">
+    <div class="col-md-3">
+      <label>Dari Tanggal:</label>
+      <input type="date" name="tanggal_mulai" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label>Sampai Tanggal:</label>
+      <input type="date" name="tanggal_selesai" class="form-control" required>
+    </div>
+    <div class="col-md-2 mt-4">
+      <button class="btn btn-primary" type="submit">Filter</button>
+    </div>
+  </form>
+  <a href="{{ url_for('export_laporan_excel') }}" class="btn btn-success mb-3">Export ke Excel</a>
+  <table class="table table-bordered mt-4">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Pelanggan</th>
+        <th>Menu</th>
+        <th>Jumlah</th>
+        <th>Harga</th>
+        <th>Total</th>
+        <th>Tanggal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% set grand_total = 0 %}
+      {% for row in laporan %}
+      {% set grand_total = grand_total + row[5] %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>Rp{{ "{:,.0f}".format(row[4]|float) }}</td>
+        <td>Rp{{ "{:,.0f}".format(row[5]|float) }}</td>
+        <td>{{ row[6].strftime('%d-%m-%Y') }}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="5" class="text-end"><strong>Total</strong></td>
+        <td colspan="2"><strong>Rp{{ "{:,.0f}".format(grand_total) }}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

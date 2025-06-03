@@ -1,5 +1,7 @@
-{% extends "pelanggan/layout.html" %}
+{% extends 'pelanggan/layout.html' %}
 {% block content %}
-<h1>Selamat datang, Pelanggan {{ session['username'] }}</h1>
-<p>Ini adalah halaman dashboard pelanggan.</p>
+<div class="container mt-4">
+  <h2>Selamat datang, {{ session.username }}!</h2>
+  <p>Silakan pilih menu di sidebar untuk melakukan pemesanan atau melihat riwayat.</p>
+</div>
 {% endblock %}

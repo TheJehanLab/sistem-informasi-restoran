@@ -1,0 +1,19 @@
+{% extends 'pelanggan/layout.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Daftar Menu</h3>
+  <div class="row">
+    {% for item in menu %}
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ item[1] }}</h5>
+          <p class="card-text">Harga: Rp{{ item[2] }}</p>
+          <a href="{{ url_for('pelanggan_pesan', id_menu=item[0]) }}" class="btn btn-primary">Pesan</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

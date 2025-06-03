@@ -1,0 +1,17 @@
+{% extends 'pelanggan/layout.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Beri Rating & Saran</h3>
+  <form method="POST">
+    <div class="mb-3">
+      <label for="rating" class="form-label">Rating (1–5)</label>
+      <input type="number" name="rating" id="rating" class="form-control" min="1" max="5" required>
+    </div>
+    <div class="mb-3">
+      <label for="saran" class="form-label">Saran</label>
+      <textarea name="saran" id="saran" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Kirim</button>
+  </form>
+</div>
+{% endblock %}
