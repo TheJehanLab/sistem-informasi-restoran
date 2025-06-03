@@ -1,0 +1,27 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<h2>Edit Menu</h2>
+
+<form method="POST" action="{{ url_for('menu_edit', id=menu[0]) }}">
+  <div class="mb-3">
+    <label for="nama" class="form-label">Nama Menu</label>
+    <input type="text" class="form-control" id="nama" name="nama" value="{{ menu[1] }}" required />
+  </div>
+
+  <div class="mb-3">
+    <label for="kategori" class="form-label">Kategori</label>
+    <select class="form-select" id="kategori" name="kategori" required>
+      <option value="makanan" {% if menu[2]=='makanan' %}selected{% endif %}>Makanan</option>
+      <option value="minuman" {% if menu[2]=='minuman' %}selected{% endif %}>Minuman</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="harga" class="form-label">Harga (Rp)</label>
+    <input type="number" class="form-control" id="harga" name="harga" min="0" value="{{ menu[3] }}" required />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Update</button>
+  <a href="{{ url_for('menu_list') }}" class="btn btn-secondary">Batal</a>
+</form>
+{% endblock %}

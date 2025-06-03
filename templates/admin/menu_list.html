@@ -1,0 +1,38 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<h2>Daftar Menu</h2>
+
+<a href="{{ url_for('menu_tambah') }}" class="btn btn-primary mb-3">Tambah Menu Baru</a>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama</th>
+      <th>Kategori</th>
+      <th>Harga</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in menus %}
+    <tr>
+      <td>{{ item[0] }}</td>
+      <td>{{ item[1] }}</td>
+      <td>{{ item[2] }}</td>
+      <td>Rp {{ "{:,}".format(item[3]) }}</td>
+      <td>
+        <a href="{{ url_for('menu_edit', id=item[0]) }}" class="btn btn-warning btn-sm">Edit</a>
+        <form method="POST" action="{{ url_for('menu_hapus', id=item[0]) }}" style="display:inline;" onsubmit="return confirm('Yakin hapus menu ini?');">
+          <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="5" class="text-center">Belum ada data menu.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

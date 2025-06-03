@@ -1,0 +1,36 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<h2>Daftar Pelanggan</h2>
+
+<a href="{{ url_for('pelanggan_tambah') }}" class="btn btn-primary mb-3">Tambah Pelanggan Baru</a>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in pelanggan %}
+    <tr>
+      <td>{{ p[0] }}</td>
+      <td>{{ p[1] }}</td>
+      <td>{{ p[2] }}</td>
+      <td>
+        <a href="{{ url_for('pelanggan_edit', id=p[0]) }}" class="btn btn-warning btn-sm">Edit</a>
+        <form method="POST" action="{{ url_for('pelanggan_hapus', id=p[0]) }}" style="display:inline;" onsubmit="return confirm('Yakin hapus pelanggan ini?');">
+          <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="4" class="text-center">Belum ada data pelanggan.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
