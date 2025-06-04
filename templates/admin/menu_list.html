@@ -8,6 +8,7 @@
       <th>Nama Menu</th>
       <th>Kategori</th>
       <th>Harga (Rp)</th>
+      <th>Aksi</th>
     </tr>
   </thead>
   <tbody>
@@ -17,6 +18,12 @@
       <td>{{ menu[1] }}</td>
       <td>{{ menu[2] if menu[2] else 'Tidak ada kategori' }}</td>
       <td>{{ menu[3] }}</td>
+      <td>
+        <a href="{{ url_for('menu_edit', id=menu[0]) }}" class="btn btn-sm btn-warning">Edit</a>
+        <form action="{{ url_for('menu_hapus', id=menu[0]) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus menu ini?');">
+          <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+        </form>
+      </td>
     </tr>
     {% endfor %}
   </tbody>

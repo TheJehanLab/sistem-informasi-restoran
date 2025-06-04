@@ -164,29 +164,23 @@ def menu_edit(id):
         return redirect(url_for('login'))
 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM menu WHERE id=%s", (id,))
-    menu = cur.fetchone()
-
-    if not menu:
-        cur.close()
-        flash('Menu tidak ditemukan!', 'danger')
-        return redirect(url_for('menu_list'))
 
     if request.method == 'POST':
         nama = request.form['nama']
         kategori = request.form['kategori']
         harga = request.form['harga']
 
-        cur.execute("UPDATE menu SET nama=%s, kategori=%s, harga=%s WHERE id=%s",
-                    (nama, kategori, harga, id))
+        cur.execute("UPDATE menu SET nama=%s, kategori=%s, harga=%s WHERE id=%s", (nama, kategori, harga, id))
         mysql.connection.commit()
         cur.close()
-
-        flash('Menu berhasil diupdate!', 'success')
+        flash('Menu berhasil diperbarui!', 'success')
         return redirect(url_for('menu_list'))
 
+    cur.execute("SELECT * FROM menu WHERE id = %s", (id,))
+    menu = cur.fetchone()
     cur.close()
     return render_template('admin/menu_edit.html', menu=menu)
+
 
 # Hapus menu
 @app.route('/admin/menu/hapus/<int:id>', methods=['POST'])
@@ -195,12 +189,20 @@ def menu_hapus(id):
         return redirect(url_for('login'))
 
     cur = mysql.connection.cursor()
-    cur.execute("DELETE FROM menu WHERE id=%s", (id,))
-    mysql.connection.commit()
-    cur.close()
+    cur.execute("SELECT COUNT(*) FROM pesanan WHERE id_menu = %s", (id,))
+    jumlah_pesanan = cur.fetchone()[0]
 
-    flash('Menu berhasil dihapus!', 'success')
+    if jumlah_pesanan > 0:
+        flash('Menu tidak bisa dihapus karena sudah digunakan dalam pesanan.', 'danger')
+    else:
+        cur.execute("DELETE FROM menu WHERE id = %s", (id,))
+        mysql.connection.commit()
+        flash('Menu berhasil dihapus!', 'success')
+
+    cur.close()
     return redirect(url_for('menu_list'))
+
+
 
 # Daftar pelanggan (role = 'pelanggan' saja)
 @app.route('/admin/pelanggan')
